@@ -1,5 +1,6 @@
 import { userRepository } from "../repository/user.repository";
 import { Request, Response } from "express";
+import { Encrypt } from "../helper/encrypt.helper";
 
 export class userController {
   static async getAllUser(req: Request, res: Response) {
@@ -14,11 +15,16 @@ export class userController {
   }
 
   static async createUser(req: Request, res: Response) {
-    const result = await userRepository.createUser(req.body);
+    let data = req.body;
+    data.password = await Encrypt.hashPassword(data.password);
+    const result = await userRepository.createUser(data);
     res.status(201).json(result);
   }
 
   static async updateUser(req: Request, res: Response) {
+    if (req.body.password) {
+      req.body.password = await Encrypt.hashPassword(req.body.password);
+    }
     const result = await userRepository.updateUser(
       Number(req.params.id),
       req.body
