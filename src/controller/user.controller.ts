@@ -2,6 +2,7 @@ import { userRepository } from "../repository/user.repository";
 import { Request, Response } from "express";
 import { Encrypt } from "../helper/encrypt.helper";
 import { OTPUtility } from "../utility/otp.utility";
+import { sendMail } from "../helper/mailer.helper";
 
 export class userController {
   static async getAllUser(req: Request, res: Response) {
@@ -46,6 +47,9 @@ export class userController {
       otp,
       new Date(Date.now() + 3 * 60000)
     );
+    if (result) {
+      await sendMail(email, "Your OTP Code", `Your OTP code is ${otp}`);
+    }
     res.status(200).json(result);
   }
 

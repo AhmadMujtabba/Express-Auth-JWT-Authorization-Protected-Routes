@@ -52,10 +52,6 @@ export class UserService {
     const user = await this.userRepository.findOneBy({ email });
     if (user == null) return false;
     if (user.otp === otp && user.otp_expiry > new Date()) {
-      console.log(
-        typeof (user.otp_expiry < new Date()),
-        user.otp === otp && user.otp_expiry < new Date()
-      );
       user.verification_status = true;
       user.otp = null;
       user.otp_expiry = null;
