@@ -5,7 +5,7 @@ const { JWT_SECRET } = process.env;
 
 export class JWTHelper {
   static generateToken(payload: object): string {
-    return JsonWebKey.sign(payload, JWT_SECRET, { expiresIn: "10m" });
+    return JsonWebKey.sign(payload, JWT_SECRET, { expiresIn: "3m" });
   }
 
   static verifyToken(token: string): any {
