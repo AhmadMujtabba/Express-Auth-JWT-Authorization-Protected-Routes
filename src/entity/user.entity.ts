@@ -34,7 +34,12 @@ export class User {
   @UpdateDateColumn()
   updatedAt: Date;
 
+  @Column({ nullable: true })
+  otp: number;
+
+  @Column({ nullable: true })
+  otp_expiry: Date;
+
   @Column({ default: false })
   verification_status: boolean;
-  
 }

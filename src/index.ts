@@ -2,12 +2,14 @@ import "reflect-metadata";
 import * as express from "express";
 import * as dotenv from "dotenv";
 import { userRoute } from "./route/user.route";
+import { verificationRoute } from "./route/verification.route";
 import { AppDataSource } from "./config/data-source";
 dotenv.config();
 const port = process.env.PORT;
 const app = express();
 app.use(express.json());
 app.use("/users", userRoute);
+app.use("/api", verificationRoute);
 
 AppDataSource.initialize().then(async () => {
   try {

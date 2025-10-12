@@ -1,6 +1,7 @@
 import { userRepository } from "../repository/user.repository";
 import { Request, Response } from "express";
 import { Encrypt } from "../helper/encrypt.helper";
+import { OTPUtility } from "../utility/otp.utility";
 
 export class userController {
   static async getAllUser(req: Request, res: Response) {
@@ -35,5 +36,29 @@ export class userController {
   static async deleteUser(req: Request, res: Response) {
     const result = await userRepository.deleteUser(Number(req.params.id));
     res.status(200).json(result);
+  }
+
+  static async generateOTP(req: Request, res: Response) {
+    const { email } = req.body;
+    const otp = OTPUtility.generateOTP();
+    const result = await userRepository.generateOTP(
+      email,
+      otp,
+      new Date(Date.now() + 3 * 60000)
+    );
+    res.status(200).json(result);
+  }
+
+  static async verifyStatusByOtp(req: Request, res: Response) {
+    const { email, otp } = req.body;
+    const isVerified = await userRepository.verifyStatusByOtp(
+      email,
+      Number(otp)
+    );
+    if (isVerified) {
+      res.status(200).json({ message: "OTP verified successfully" });
+    } else {
+      res.status(400).json({ message: "Invalid or expired OTP" });
+    }
   }
 }
