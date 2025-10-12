@@ -36,4 +36,5 @@ export class User {
 
   @Column({ default: false })
   verification_status: boolean;
+  
 }
