@@ -19,6 +19,5 @@ export const authentication = async (
   //     return res.status(401).json({ message: "Unauthorized" });
   //   }
 
-  //   req.headers["user"] = decode;
   next();
 };

@@ -55,7 +55,7 @@ export class UserService {
   async verifyStatusByOtp(email: string, otp: number): Promise<boolean> {
     const user = await this.userRepository.findOneBy({ email });
     if (user == null) return false;
-    if (user.otp === otp && user.otp_expiry > new Date()) {
+    if (user.otp === otp && new Date() < user.otp_expiry) {
       user.verification_status = true;
       user.otp = null;
       user.otp_expiry = null;

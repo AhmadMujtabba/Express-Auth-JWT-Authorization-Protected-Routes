@@ -65,4 +65,6 @@ export class userController {
       res.status(400).json({ message: "Invalid or expired OTP" });
     }
   }
+
+  
 }
