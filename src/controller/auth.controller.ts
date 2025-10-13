@@ -61,4 +61,10 @@ export class authController {
       res.status(400).json({ message: "Invalid or expired OTP" });
     }
   }
+
+  static async getProfile(req: Request, res: Response) {
+    const userId = req.header["user"].id;
+    const result = await userRepository.getUserById(userId);
+    res.status(200).json(result);
+  }
 }
